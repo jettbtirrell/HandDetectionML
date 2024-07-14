@@ -1,0 +1,20 @@
+import pandas as pd
+
+data = []
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    results = model(frame)
+    
+    for result in results.xyxy[0]:
+        x1, y1, x2, y2, conf, cls = result
+        data.append([x1, y1, x2, y2, conf, cls])
+    
+    # Your drawing and display code here
+
+# Convert to DataFrame and save
+df = pd.DataFrame(data, columns=['x1', 'y1', 'x2', 'y2', 'confidence', 'class'])
+df.to_csv('detection_results.csv', index=False)
